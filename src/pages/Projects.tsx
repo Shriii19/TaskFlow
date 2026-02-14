@@ -57,13 +57,13 @@ export default function Projects() {
 
   const projects = projectsData?.map((p: any) => ({
     ...p,
-    tasks: { completed: 0, total: 0 }, // Mocked for now
-    members: 0 // Mocked for now
+    tasks: { completed: 0, total: 0 },
+    members: 0
   })) || [];
 
   const filteredProjects = projects.filter((project: any) => {
-    const matchesSearch = project.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         project.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = project.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                         project.description?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === 'all' || project.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
