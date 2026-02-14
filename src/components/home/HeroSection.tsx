@@ -95,6 +95,8 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             className="grid grid-cols-3 gap-8 max-w-2xl mx-auto"
+            role="region"
+            aria-label="Platform statistics"
           >
             {[
               { value: '10k+', label: 'Active Users' },
