@@ -48,7 +48,7 @@ export default function Login() {
             <p className="text-muted-foreground text-lg">Enter your credentials to access your account</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6"
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-semibold">Email</Label>
               <div className="relative">
