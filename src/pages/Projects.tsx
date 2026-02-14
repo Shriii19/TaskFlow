@@ -77,14 +77,14 @@ export default function Projects() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"
+            className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10"
           >
             <div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">Projects</h1>
-              <p className="text-muted-foreground">Manage and track your ongoing projects</p>
+              <h1 className="text-4xl font-bold text-foreground mb-2">Projects</h1>
+              <p className="text-muted-foreground text-lg">Manage and track your ongoing projects</p>
             </div>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" />
+            <Button size="lg" className="shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30">
+              <Plus className="w-5 h-5 mr-2" />
               New Project
             </Button>
           </motion.div>
@@ -94,23 +94,23 @@ export default function Projects() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex flex-col sm:flex-row gap-4 mb-8"
+            className="flex flex-col sm:flex-row gap-4 mb-10"
           >
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input 
                 placeholder="Search projects..." 
-                className="pl-10"
+                className="pl-11 h-11 bg-card border-border/50 focus:border-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2 hover:bg-primary/5 hover:text-primary hover:border-primary/30">
                 <Filter className="w-4 h-4" />
                 Filter
               </Button>
-              <Button variant="outline" className="gap-2">
+              <Button variant="outline" className="gap-2 hover:bg-primary/5 hover:text-primary hover:border-primary/30">
                 <Calendar className="w-4 h-4" />
                 Sort
               </Button>
@@ -137,75 +137,81 @@ export default function Projects() {
               <motion.div
                 key={project.id}
                 variants={itemVariants}
-                className="group bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5"
+                whileHover={{ y: -5 }}
+                className="group relative"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div 
-                    className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold"
-                    style={{ backgroundColor: project.color || '#3b82f6' }}
-                  >
-                    {project.name.charAt(0)}
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <MoreHorizontal className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Edit Project</DropdownMenuItem>
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">Delete Project</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-
-                <h3 className="text-lg font-semibold text-foreground mb-2">{project.name}</h3>
-                <p className="text-sm text-muted-foreground mb-6 line-clamp-2 h-10">
-                  {project.description}
-                </p>
-
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="text-muted-foreground">Progress</span>
-                      <span className="font-medium">{project.progress || 0}%</span>
+                {/* Hover glow effect */}
+                <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 rounded-2xl blur-xl transition-opacity duration-300"></div>
+                
+                <div className="relative bg-card border border-border rounded-2xl p-6 hover:border-primary/40 transition-all hover:shadow-xl hover:shadow-primary/10">
+                  <div className="flex items-start justify-between mb-5">
+                    <div 
+                      className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform"
+                      style={{ backgroundColor: project.color || '#3b82f6' }}
+                    >
+                      {project.name.charAt(0)}
                     </div>
-                    <Progress value={project.progress || 0} className="h-2" />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/10">
+                          <MoreHorizontal className="w-5 h-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit Project</DropdownMenuItem>
+                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">Delete Project</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-border">
-                    <div className="flex -space-x-2">
-                      {[...Array(Math.min(project.members || 0, 3))].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-8 h-8 rounded-full border-2 border-background bg-muted flex items-center justify-center text-xs font-medium"
-                        >
-                          <UsersIcon className="w-4 h-4 text-muted-foreground" />
-                        </div>
-                      ))}
-                      {(project.members || 0) > 3 && (
-                        <div className="w-8 h-8 rounded-full border-2 border-background bg-muted flex items-center justify-center text-xs font-medium text-muted-foreground">
-                          +{(project.members || 0) - 3}
-                        </div>
-                      )}
+                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{project.name}</h3>
+                  <p className="text-sm text-muted-foreground mb-6 line-clamp-2 h-10 leading-relaxed">
+                    {project.description}
+                  </p>
+
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-muted-foreground font-medium">Progress</span>
+                        <span className="font-bold text-foreground">{project.progress || 0}%</span>
+                      </div>
+                      <Progress value={project.progress || 0} className="h-2.5" />
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                      <div className="flex -space-x-2">
+                        {[...Array(Math.min(project.members || 0, 3))].map((_, i) => (
+                          <div
+                            key={i}
+                            className="w-9 h-9 rounded-full border-2 border-background bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center text-xs font-medium group-hover:scale-110 transition-transform"
+                          >
+                            <UsersIcon className="w-4 h-4 text-primary" />
+                          </div>
+                        ))}
+                        {(project.members || 0) > 3 && (
+                          <div className="w-9 h-9 rounded-full border-2 border-background bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center text-xs font-bold text-foreground">
+                            +{(project.members || 0) - 3}
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="flex items-center gap-2">
+                        <span className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${statusConfig[project.status]?.className || ''}`}>
+                          {statusConfig[project.status]?.label || project.status}
+                        </span>
+                      </div>
                     </div>
                     
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusConfig[project.status]?.className || ''}`}>
-                        {statusConfig[project.status]?.label || project.status}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <CheckSquare className="w-3.5 h-3.5" />
-                      {project.tasks?.completed || 0}/{project.tasks?.total || 0}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      {project.deadline}
+                    <div className="flex items-center gap-5 text-xs font-medium text-muted-foreground">
+                      <div className="flex items-center gap-1.5">
+                        <CheckSquare className="w-4 h-4" />
+                        <span>{project.tasks?.completed || 0}/{project.tasks?.total || 0} tasks</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4" />
+                        <span>{project.deadline}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
