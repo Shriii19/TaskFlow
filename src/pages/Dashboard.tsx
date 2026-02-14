@@ -63,10 +63,18 @@ export default function Dashboard() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-8"
+            className="mb-10"
           >
-            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome back!</h1>
-            <p className="text-muted-foreground">Here's what's happening with your projects today.</p>
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h1 className="text-4xl font-bold text-foreground mb-2">Welcome back! 👋</h1>
+                <p className="text-muted-foreground text-lg">Here's what's happening with your projects today.</p>
+              </div>
+              <Button size="lg" className="shadow-lg shadow-primary/20">
+                <Plus className="w-5 h-5 mr-2" />
+                Create New
+              </Button>
+            </div>
           </motion.div>
 
           {isLoading ? (
@@ -84,7 +92,7 @@ export default function Dashboard() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
           >
             {stats.map((stat, index) => {
               const Icon = stat.icon;
@@ -92,19 +100,25 @@ export default function Dashboard() {
                 <motion.div
                   key={index}
                   variants={itemVariants}
-                  className="bg-card border border-border rounded-xl p-6 hover:border-primary/30 transition-colors"
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="relative group"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-primary" />
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 rounded-2xl blur-xl transition-opacity duration-300"></div>
+                  
+                  <div className="relative bg-card border border-border rounded-2xl p-6 hover:border-primary/50 transition-all shadow-sm hover:shadow-xl hover:shadow-primary/10">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-14 h-14 bg-gradient-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
+                        <Icon className="w-7 h-7 text-primary-foreground" />
+                      </div>
+                      <span className="flex items-center gap-1 text-sm font-semibold text-success bg-success/10 px-2.5 py-1 rounded-full">
+                        {stat.change}
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </span>
                     </div>
-                    <span className="flex items-center gap-1 text-sm font-medium text-success">
-                      {stat.change}
-                      <ArrowUpRight className="w-4 h-4" />
-                    </span>
+                    <div className="text-3xl font-bold text-foreground mb-1.5">{stat.value}</div>
+                    <div className="text-sm font-medium text-muted-foreground">{stat.label}</div>
                   </div>
-                  <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </motion.div>
               );
             })}
@@ -117,30 +131,35 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="lg:col-span-2 bg-card border border-border rounded-xl p-6"
+              className="lg:col-span-2 bg-card border border-border rounded-2xl p-7 shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-foreground">Recent Projects</h2>
-                <Button variant="ghost" size="sm">
+                <div>
+                  <h2 className="text-xl font-bold text-foreground mb-1">Recent Projects</h2>
+                  <p className="text-sm text-muted-foreground">Track your ongoing work</p>
+                </div>
+                <Button variant="ghost" size="sm" className="group">
                   View All
+                  <ArrowUpRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Button>
               </div>
 
               <div className="space-y-4">
                 {recentProjects.map((project: any, index: number) => (
-                  <div
+                  <motion.div
                     key={index}
-                    className="p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+                    whileHover={{ scale: 1.01 }}
+                    className="p-5 bg-gradient-to-br from-muted/40 to-muted/20 rounded-xl hover:from-muted/60 hover:to-muted/30 transition-all cursor-pointer border border-transparent hover:border-primary/20"
                   >
-                    <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="font-medium text-foreground">{project.name}</h3>
+                        <h3 className="font-semibold text-foreground text-lg mb-1">{project.name}</h3>
                         <p className="text-sm text-muted-foreground">
                           {project.description} • Due {project.deadline}
                         </p>
                       </div>
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
                           project.status === 'active' ? 'status-in-progress' : 'status-review'
                         }`}
                       >
@@ -148,12 +167,12 @@ export default function Dashboard() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Progress value={project.progress || 0} className="flex-1 h-2" />
-                      <span className="text-sm font-medium text-muted-foreground">
+                      <Progress value={project.progress || 0} className="flex-1 h-2.5" />
+                      <span className="text-sm font-bold text-foreground min-w-[3rem] text-right">
                         {project.progress || 0}%
                       </span>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
@@ -163,33 +182,37 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-card border border-border rounded-xl p-6"
+              className="bg-card border border-border rounded-2xl p-7 shadow-lg hover:shadow-xl transition-shadow"
             >
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-foreground">Upcoming Tasks</h2>
-                <Button variant="ghost" size="icon">
-                  <Plus className="w-4 h-4" />
+                <div>
+                  <h2 className="text-xl font-bold text-foreground mb-1">Upcoming Tasks</h2>
+                  <p className="text-sm text-muted-foreground">Stay on top of deadlines</p>
+                </div>
+                <Button variant="ghost" size="icon" className="hover:bg-primary/10 hover:text-primary">
+                  <Plus className="w-5 h-5" />
                 </Button>
               </div>
 
               <div className="space-y-3">
                 {recentTasks.map((task: any, index: number) => (
-                  <div
+                  <motion.div
                     key={index}
-                    className="p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+                    whileHover={{ x: 2 }}
+                    className="p-4 bg-gradient-to-br from-muted/40 to-muted/20 rounded-xl hover:from-muted/60 hover:to-muted/30 transition-all cursor-pointer group"
                   >
                     <div className="flex items-start gap-3">
                       <div className="mt-1">
-                        <div className="w-4 h-4 border-2 border-muted-foreground rounded" />
+                        <div className="w-5 h-5 border-2 border-muted-foreground/50 rounded group-hover:border-primary transition-colors" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-foreground text-sm truncate">
+                        <h4 className="font-semibold text-foreground text-sm mb-1">
                           {task.title}
                         </h4>
-                        <p className="text-xs text-muted-foreground">{task.description}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-1">{task.description}</p>
                       </div>
                       <span
-                        className={`px-2 py-0.5 rounded text-xs font-medium shrink-0 ${
+                        className={`px-2.5 py-1 rounded-lg text-xs font-semibold shrink-0 ${
                           task.priority === 'urgent'
                             ? 'priority-urgent'
                             : task.priority === 'high'
@@ -202,15 +225,15 @@ export default function Dashboard() {
                         {task.priority}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 mt-2 ml-7 text-xs text-muted-foreground">
-                      <Clock className="w-3 h-3" />
-                      {task.due_date}
+                    <div className="flex items-center gap-1.5 mt-3 ml-8 text-xs text-muted-foreground">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span className="font-medium">{task.due_date}</span>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
-              <Button variant="outline" className="w-full mt-4">
+              <Button variant="outline" className="w-full mt-5 hover:bg-primary/5 hover:text-primary hover:border-primary/30">
                 View All Tasks
               </Button>
             </motion.div>
