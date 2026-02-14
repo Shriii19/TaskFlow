@@ -46,8 +46,8 @@ export default function Dashboard() {
   const stats = [
     { label: 'Active Projects', value: projects?.length || 0, change: '+0', icon: FolderKanban, trend: 'up' },
     { label: 'Tasks Completed', value: tasks?.filter((t: any) => t.status === 'completed').length || 0, change: '+0', icon: CheckSquare, trend: 'up' },
-    { label: 'Team Members', value: '0', change: '+0', icon: Users, trend: 'neutral' }, // Mocked for now
-    { label: 'Productivity', value: '0%', change: '+0%', icon: TrendingUp, trend: 'neutral' }, // Mocked for now
+    { label: 'Team Members', value: 0, change: '+0', icon: Users, trend: 'neutral' },
+    { label: 'Productivity', value: '0%', change: '+0%', icon: TrendingUp, trend: 'neutral' },
   ];
 
   const recentProjects = projects?.slice(0, 4) || [];
