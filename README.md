@@ -171,8 +171,7 @@ Modify these values if your MySQL setup differs.
 - Verify the backend URL in the API service configuration
 - Check browser console for detailed error messages
 
-## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+
 
 ## 📄 License
 This project is open-source and available under the MIT License.
