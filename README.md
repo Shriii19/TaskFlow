@@ -1,177 +1,106 @@
 # TaskFlow
 
-TaskFlow is a modern, full-stack project management application designed to streamline personal and team productivity. Built with React, TypeScript, and PHP/MySQL, it features interactive 3D visualizations, real-time task tracking, and comprehensive team collaboration tools.
+A modern, full‑stack project management app — React + TypeScript frontend with a lightweight PHP/MySQL backend. Clean UI, a Kanban task board, project overviews, and an interactive 3D visualization.
 
-## 🚀 Features
+---
 
-- **Interactive Dashboard**: Real-time overview of projects, tasks, and team productivity with dynamic charts and stats.
-- **3D Project Visualization**: Unique interactive 3D scene using Three.js (@react-three/fiber) to visualize project status.
-- **Project Management**: Create, edit, and track projects with progress bars and status indicators.
-- **Task Management**: Kanban-style task board with drag-and-drop capabilities (in progress), filtering, and priority management.
-- **Team Collaboration**: Role-based access control (Admin, Project Manager, Team Member) and team member management.
-- **Secure Authentication**: User registration and login system with secure password hashing.
-- **Responsive Design**: Fully responsive UI built with Tailwind CSS and Shadcn/UI.
-- **Smooth Animations**: Enhanced user experience with Framer Motion transitions.
+## ✅ What I changed
+- Polished wording and layout for clarity.
+- Fixed backend-hosting notes and clarified how the frontend locates the API (see "Backend" below).
+- Kept all technical details and endpoints unchanged.
 
-## 🛠️ Tech Stack
+---
 
-### Frontend
-- **Framework**: React 18 (Vite)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: Shadcn/UI, Lucide React
-- **Animations**: Framer Motion
-- **3D Graphics**: Three.js, @react-three/fiber, @react-three/drei
-- **State Management**: TanStack React Query, Context API
-- **Routing**: React Router DOM
+## 🚀 Key features
+- Interactive dashboard with charts and project metrics
+- 3D project visualization (Three.js / @react-three/fiber)
+- Project CRUD and progress indicators
+- Kanban-style task board (static today — drag & drop planned)
+- Role-based team management and secure authentication
+- Responsive UI with Tailwind CSS and smooth animations (Framer Motion)
 
-### Backend
-- **Language**: PHP 8.x
-- **Database**: MySQL
-- **API Architecture**: RESTful API
-- **Security**: PDO for database interactions, CORS enabled
+## 🛠 Stack (high level)
+- Frontend: React 18, TypeScript, Vite, Tailwind CSS
+- UI / animation: Shadcn/UI, Lucide, Framer Motion
+- 3D: three, @react-three/fiber, @react-three/drei
+- State/requests: TanStack React Query, axios
+- Backend: PHP 8.x, MySQL (PDO)
 
-## ⚙️ Installation & Setup
+---
 
-### Prerequisites
-- Node.js (v16+)
-- PHP (v8.0+)
-- MySQL Server (e.g., via XAMPP, WAMP, or standalone)
-- Git
-
-### 1. Database Setup
-1. Start your MySQL server.
-2. Create a new database named `taskflow`.
-3. Import the schema file located at `database/schema.sql` into the `taskflow` database.
-
-### 2. Backend Setup
-1. Configure the database connection in `backend/config/database.php` if your credentials differ from the defaults (User: `root`, Password: empty).
-2. Start the PHP development server:
-   ```bash
-   cd backend
-   php -S localhost:8000
-   ```
-   *Note: Ensure the backend runs on port 8000 as the frontend is configured to communicate with this port.*
-
-### 3. Frontend Setup
-1. Install dependencies:
+## ⚙️ Quick start
+1. Prepare the database:
+   - Create a MySQL database named `taskflow` and import `database/schema.sql`.
+2. Start the backend (two options — see note below):
+   - XAMPP / Apache (recommended default for this repo): make the `backend` folder available at `/taskflow` so the API is reachable at `http://localhost/taskflow/api`.
+   - PHP built-in server (dev):
+     ```bash
+     cd backend
+     php -S localhost:8000
+     ```
+     If you use the built-in server, update the frontend API base URL in `src/services/api.ts` to `http://localhost:8000/api`.
+3. Start the frontend:
    ```bash
    npm install
-   ```
-2. Start the development server:
-   ```bash
    npm run dev
    ```
-3. Open your browser and navigate to the local URL provided by Vite (typically `http://localhost:5173`).
+   Open the URL shown by Vite (default: `http://localhost:5173`).
 
-## 📂 Project Structure
+> Note: The frontend's default API base is `http://localhost/taskflow/api` (configured in `src/services/api.ts`). Change it if you serve the backend on a different host/port.
 
-```
-TaskFlow/
-├── backend/                # PHP Backend
-│   ├── api/                # API Endpoints (Auth, Projects, Tasks, Users)
-│   │   ├── auth/          # Authentication endpoints
-│   │   ├── projects/      # Project management endpoints
-│   │   ├── tasks/         # Task management endpoints
-│   │   └── users/         # User management endpoints
-│   └── config/             # Database Configuration
-├── database/               # SQL Schema
-│   └── schema.sql          # Database structure
-├── src/                    # React Frontend
-│   ├── components/         # Reusable UI Components
-│   │   ├── 3d/            # Three.js 3D components
-│   │   ├── home/          # Landing page components
-│   │   ├── layout/        # Layout components (Header, Footer)
-│   │   └── ui/            # Shadcn UI components
-│   ├── context/            # React Context (AuthContext)
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utility functions
-│   ├── pages/              # Application Pages
-│   │   ├── Dashboard.tsx   # Main dashboard
-│   │   ├── Projects.tsx    # Project management
-│   │   ├── Tasks.tsx       # Task management
-│   │   ├── Team.tsx        # Team collaboration
-│   │   └── ...
-│   ├── services/           # API Service Integration
-│   └── test/               # Test files
-└── ...
-```
+---
 
-## � Testing
+## 📂 Project layout (short)
+- `backend/` — PHP API endpoints and DB config
+- `database/` — SQL schema
+- `src/` — React app (components, pages, services)
+- `src/services/api.ts` — axios instance / API base URL
 
-Run tests using Vitest:
+---
 
-```bash
-# Run tests once
-npm run test
+## 🔌 API (examples)
+Authentication
+- POST `/api/auth/register.php` — register
+- POST `/api/auth/login.php` — login
 
-# Run tests in watch mode
-npm run test:watch
-```
+Projects
+- GET `/api/projects/index.php` — list
+- POST `/api/projects/index.php` — create
+- PUT `/api/projects/index.php` — update
+- DELETE `/api/projects/index.php` — delete
 
-## 🔌 API Endpoints
+Tasks
+- GET `/api/tasks/index.php`
+- POST `/api/tasks/index.php`
+- PUT `/api/tasks/index.php`
+- DELETE `/api/tasks/index.php`
 
-### Authentication
-- `POST /api/auth/register.php` - User registration
-- `POST /api/auth/login.php` - User login
+Users
+- GET `/api/users/index.php`
 
-### Projects
-- `GET /api/projects/index.php` - Get all projects
-- `POST /api/projects/index.php` - Create new project
-- `PUT /api/projects/index.php` - Update project
-- `DELETE /api/projects/index.php` - Delete project
+---
 
-### Tasks
-- `GET /api/tasks/index.php` - Get all tasks
-- `POST /api/tasks/index.php` - Create new task
-- `PUT /api/tasks/index.php` - Update task
-- `DELETE /api/tasks/index.php` - Delete task
+## 🧪 Testing & dev scripts
+- Start dev server: `npm run dev`
+- Build: `npm run build` (or `npm run build:dev`)
+- Lint: `npm run lint`
+- Tests: `npm run test` / `npm run test:watch`
 
-### Users
-- `GET /api/users/index.php` - Get all users
-
-## 🛠️ Development
-
-### Building for Production
-
-```bash
-# Build the frontend
-npm run build
-
-# Build for development mode
-npm run build:dev
-```
-
-### Linting
-
-```bash
-npm run lint
-```
-
-## 📝 Environment Variables
-
-The backend uses the following default configuration in `backend/config/database.php`:
-- **Host**: localhost
-- **Database**: taskflow
-- **Username**: root
-- **Password**: (empty)
-
-Modify these values if your MySQL setup differs.
+---
 
 ## 🐛 Troubleshooting
+- Backend unreachable? verify MySQL + `backend/config/database.php` and ensure the API base URL in `src/services/api.ts` matches where you serve the PHP backend.
+- If using php -S on port 8000: set `API_URL` in `src/services/api.ts` to `http://localhost:8000/api`.
+- Frontend errors: clear `node_modules` and reinstall, check browser console and network requests.
 
-### Backend Connection Issues
-- Ensure MySQL server is running
-- Verify database credentials in `backend/config/database.php`
-- Check that the `taskflow` database exists and schema is imported
-- Ensure PHP is running on port 8000
+---
 
-### Frontend Issues
-- Clear node_modules and reinstall: `rm -rf node_modules && npm install`
-- Verify the backend URL in the API service configuration
-- Check browser console for detailed error messages
+## Contributing
+PRs welcome — keep changes focused and include tests where practical.
 
 
 
-## 📄 License
-This project is open-source and available under the MIT License.
+
+
+## License
+MIT
